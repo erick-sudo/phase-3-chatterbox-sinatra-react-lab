@@ -1,28 +1,19 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
-  
-  # Add routes
-  get '/messages' do
-    Message.all.order(created_at: :asc).to_json
+
+  get '/messages' do 
+    Message.all.to_json
   end
 
-  get '/messages/:id' do
-    Message.find(params[:id])
-  end
-  
-  patch '/messages/:id' do
-    message = Message.find(params[:id])
-    message.update(params)
-    message.to_json
+  get'/messages/:id' do
+    Message.find(params[:id]).to_json
   end
 
   post '/messages' do
-    message = Message.create(body: params[:body], username: params[:username])
-    message.to_json
+    Message.create(username: params[:username],body: params[:body] ).to_json
   end
 
-  delete '/messages/:id' do
-    Message.delete(params[:id])
-    hash.new.to_json
+  patch '/messages/:id' do
+    Message.find(params[:id]).update(body: params[:body] ).to_json
   end
 end
